@@ -20,6 +20,9 @@
 - Results date: 24 Oct 2026 (IEEE iGET conference).
 - Judged artifact: Devpost submission — track statement, description, 3–5 min
   video, public GitHub repo, working prototype/demo.
+- **Live links (29 Sep 2026):** app https://same-stream.pages.dev · worker
+  https://same-stream.ashrafahmed1232.workers.dev · repo
+  https://github.com/AshrafAhmed9/same-stream
 - Judges: Maria João Feio (OAH coordinator, wrote the protocols), Alexander
   Nikolov (SYNYO, runs hackathon), Pradyumna Kodgi (Oracle), Gora Datta (FHIR),
   David E. González, Vinay Sharma, Sreekanth Reddy Panyam, George Koutalieris
