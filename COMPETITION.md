@@ -106,8 +106,14 @@
   entry with any real-user evidence, but not a controlled A/B).
 - Decision: proceed — genuinely open track, but treat the 27-repo survey as a
   lower bound; ~1,000 more registrants are invisible until the gallery opens.
-- Pre-freeze re-count and decision: ⬜ TODO — re-run `gh search repos` on
-  2 Oct and check the Devpost gallery once published.
+- Pre-freeze re-count (29 Sep, via `gh search repos "oneaquahealth"`): **31
+  repos** (up from 27 at kickoff). Still **0 Track-1-primary entries, 0
+  controlled inter-rater reliability studies**. Nearest neighbors unchanged:
+  HyunsikParker/streamcheck ("explained consistency and weather checks",
+  T3-style rules-based, no human study), BriceZemba/streamkeepers (T5, real
+  OAH data + 5-person SUS — still the only other entry with any real-user
+  evidence, still not a controlled A/B). Decision: proceed unchanged. Final
+  check against the Devpost gallery once it's public post-deadline.
 
 ## Claims
 | Claim | Verifiable proof | Built? | Where a judge sees it |
@@ -161,23 +167,67 @@ before any real participant starts.
 ## Freeze gate
 (Fill in with evidence — file paths, command output, URLs, video timestamps —
 before submitting. Do not mark "done" without evidence.)
-1. Competition type — engineering-judged, all items apply. ⬜
-2. Base rate stated — see Facts. ⬜
-3. Field re-counted before freeze — ⬜
-4. Finished project still matches headline; 6 kill tests still pass — ⬜
-5. Judged artifact runs the real core capability (no mock) — ⬜
-6. One proof per core claim, shown twice — ⬜
-7. Headline number beats naive baseline, visible in first 30s — ⬜
-8. Limits shown at the edges — ⬜
-9. Real inputs, not fixtures — ⬜
-10. Most precise unit — ⬜
-11. Sponsor tech (FHIR) contribution measured — ⬜
-12. Every claim visible in judged artifact, not just repo — ⬜
-13. Every prize bucket entered and confirmed — ⬜
-14. Build froze on 3 Oct with reserve intact — ⬜
-15. Live artifact protected until results (Cloudflare free tier, no spend cap needed but monitor) — ⬜
-16. Compared against earlier winner research — ⬜
-17. Submission surface at the bar, no more time spent — ⬜
+1. Competition type — engineering-judged, all items apply. ✅
+2. Base rate stated — 1,089 registrants, 5 cash places, ~2–3% honest
+   placement estimate. See Facts. ✅
+3. Field re-counted before freeze — ✅ 29 Sep, 31 repos, 0 Track-1-primary,
+   0 controlled reliability studies. See Field section above. Will re-check
+   once the Devpost gallery is public.
+4. Finished project still matches headline; 6 kill tests still pass —
+   ✅ re-checked 29 Sep: headline (measure + fix reliability of the OAH form)
+   unchanged; guided flow, baseline replica, results page, and FHIR export
+   are all built exactly as scoped in the plan. Kill tests 1–5 still pass on
+   inspection (one sentence, the α measurement, the demo moment, low overlap
+   per the field re-count, hard-because-nobody's-run-a-controlled-study).
+   Kill test 6 (who gets hurt) unchanged. ⬜ final re-check at 3 Oct freeze
+   after real data lands, since the headline number itself is still pending.
+5. Judged artifact runs the real core capability (no mock) — ✅ live app at
+   same-stream.pages.dev runs the real study flow against a real D1 database
+   and the real ENORA API (proxied), not a mock or local-only path. Verified
+   by 3 full automated browser sessions completing end-to-end, 29 Sep.
+6. One proof per core claim, shown twice — ⬜ blocked on real participant
+   data (proof requires α computed from real sessions, shown for both the
+   pooled endpoint and the anchor-site accuracy check — both wired and
+   tested against synthetic sessions, awaiting real ones).
+7. Headline number beats naive baseline, visible in first 30s — ⬜ blocked
+   on real data; video script (docs/video-script.md) already scripts the
+   number into the first 30 seconds, with [BRACKET] placeholders for the
+   real value.
+8. Limits shown at the edges — ✅ stated explicitly and non-buried: photos
+   not field visits, excluded questions, non-OAH-volunteer participants,
+   small n — see Critical path and limitations table above, and echoed in
+   docs/video-script.md and docs/devpost-submission.md.
+9. Real inputs, not fixtures — ✅ 8 real CC-licensed photos of real OAH-city
+   streams (src/study/sites.json), real live ENORA vocabularies, not
+   synthetic test fixtures.
+10. Most precise unit — ✅ per-question α, not just an overall score;
+    per-site anchor accuracy, not just aggregate; see docs/mapping.md and
+    the results page's per-question breakdown.
+11. Sponsor tech (FHIR) contribution measured — ✅ FHIR export validated
+    with 0 structural errors against the real `hl7-eu/oah` IG concepts via
+    public HAPI R4 `$validate`, since the OAH sandbox was down. See
+    docs/fhir-export.md.
+12. Every claim visible in judged artifact, not just repo — ✅ every claim
+    in the table above names a judge-visible location (results page, video,
+    README), not just source code.
+13. Every prize bucket entered and confirmed — ⬜ **needs Ashraf**: confirm
+    solo-entry eligibility and Track 1 bucket in the Devpost
+    discussion/Slack before submitting.
+14. Build froze on 3 Oct with reserve intact — ⬜ pending, date not yet
+    reached.
+15. Live artifact protected until results — ✅ Cloudflare Pages + Workers +
+    D1 free tier: no scheduled jobs that burn budget, no spend cap needed
+    (free tier hard-caps rather than billing), worker confirmed reachable
+    29 Sep (`curl https://same-stream.ashrafahmed1232.workers.dev/api/results`
+    → `[]`). Plan: spot-check the live URL every few days through 24 Oct.
+16. Compared against earlier winner research — ✅ see Adversarial iteration
+    log passes 5, 6, 9, 10 in the plan; judge-persona pass (9) maps directly
+    to what past winners (StreamLink T7 FHIR lifecycle, StreamKeepers T5
+    real-data SUS) had that this submission also has or deliberately
+    doesn't compete on.
+17. Submission surface at the bar, no more time spent — ⬜ pending real
+    numbers; docs/video-script.md and docs/devpost-submission.md are
+    drafted and ready to fill in, not yet polished further than needed.
 
 ## Post-results review
 (Fill in after 24 Oct 2026 results announcement.)
