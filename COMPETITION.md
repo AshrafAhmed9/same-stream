@@ -64,11 +64,11 @@
      against the public `hl7-eu/oah` IG definitions offline / via HAPI public
      test server instead of the OAH sandbox. Accepted risk, recorded below.
    - Cloudflare Pages + Workers + D1: account authenticated
-     (ashrafahmed1232@gmail.com), confirmed via `wrangler whoami`. ⚠️ NOTE:
-     this is not the userEmail on file for this session
-     (dev.thejobsjungle2@gmail.com) — confirm with Ashraf which account should
-     own the deployed submission before final freeze, since Devpost judges
-     will visit the live URL under this account.
+     (ashrafahmed1232@gmail.com), confirmed via `wrangler whoami`. GitHub
+     repo owner is also ashrafahmed1232@gmail.com's account (AshrafAhmed9).
+     Account-mismatch flag from earlier in this session resolved: the
+     session's own userEmail now matches (ashrafahmed1232@gmail.com), so
+     both the deployed app and the repo are on Ashraf's own accounts. ✅
    - Recruiting 10–15 real participants: Ashraf's responsibility. Study is
      LIVE at https://same-stream.pages.dev as of 29 Sep 2026 evening —
      recruitment can start immediately.
@@ -112,18 +112,26 @@
 ## Claims
 | Claim | Verifiable proof | Built? | Where a judge sees it |
 |---|---|---|---|
-| Guided flow improves inter-rater agreement | Krippendorff's α, guided vs baseline replica, bootstrap 95% CI, pre-registered before data collection | ⬜ | Results page (live data) + video + README |
-| Guided flow preserves meaning (isn't just easier-to-agree-on-anything) | Anchor sites with unambiguous answer keys; accuracy reported alongside agreement | ⬜ | Results page, `docs/mapping.md` |
-| Drop-in compatible with real OAH app | Answer codes fetched live from ENORA API vocabularies, not hardcoded | ⬜ | Worker proxy code + live API call in demo |
-| FHIR-exportable | Passes HL7 R4 structural validation against `hl7-eu/oah` IG (via public HAPI, since OAH sandbox is down) | ⬜ | `analysis/` or `src/lib/fhir.ts` + validator output in README |
+| Guided flow improves inter-rater agreement | Krippendorff's α, guided vs baseline replica, bootstrap 95% CI, pre-registered before data collection | ✅ built, ⬜ awaiting real participant data | Results page (live, currently 0/0 — see below) + video + README |
+| Guided flow preserves meaning (isn't just easier-to-agree-on-anything) | Anchor sites with unambiguous answer keys; accuracy reported alongside agreement | ✅ built (2 anchors, live accuracy card), ⬜ awaiting data | Results page, `docs/mapping.md` |
+| Drop-in compatible with real OAH app | Answer codes fetched live from ENORA API vocabularies, not hardcoded | ✅ deployed & curl-tested 29 Sep | Worker proxy code (`worker/index.ts`) + live `/api/oah/*` calls |
+| FHIR-exportable | Passes HL7 R4 structural validation against `hl7-eu/oah` IG concepts (via public HAPI, since OAH sandbox is down) | ✅ 0 errors on all 4 generated Observations, 29 Sep | `src/lib/fhir.ts` + `docs/fhir-export.md` |
+| Reliability math is correct, not just plausible | Both TS and Python implementations match Krippendorff's own published worked example (0.743) | ✅ 4 tests, both languages | `src/lib/krippendorff.test.ts`, `analysis/tests/test_reliability.py`, CI green |
+| Guided-flow images are real, not silently broken | Every referenced image returns 200 on the live deploy | ✅ verified 29 Sep — found and fixed 6 broken references first | `media/CREDITS.md` |
+
+**Status as of 29 Sep 2026, evening:** the product, study harness, FHIR
+export, and analysis pipeline are all built, deployed, and tested. The one
+thing not yet true is real participant data — 0 baseline / 0 guided as of
+this writing. This is now the single blocking item for every claim above.
 
 ## Critical path and limitations
 | Dependency or limitation | Proven live? | Routed around | If not, why |
 |---|---|---|---|
 | OAH citizen-app question text/codes | ✅ 27 Sep | — | — |
-| ENORA API (sites, vocab, health-risk) | ✅ 27 Sep (curl) | Proxy needed for browser CORS | Worker proxy in progress |
-| HL7 OAH FHIR sandbox | ❌ down 23–27 Sep | Validate against public HAPI test server instead | Sandbox outage confirmed by 2 independent competitor repos |
-| 10–15 real study participants | ⬜ in progress | — | Ashraf recruiting 29 Sep–2 Oct |
+| ENORA API (sites, vocab, health-risk) | ✅ 27 & 29 Sep (curl + deployed proxy) | Proxy built and deployed | — |
+| HL7 OAH FHIR sandbox | ❌ down 23–29 Sep | Validated against public HAPI R4 `$validate` instead, 0 errors | Sandbox outage confirmed by 2 independent competitor repos |
+| 6 guided-flow reference images | ❌ were silently broken (onerror-hidden) as of first deploy | Found via headless-browser audit, fixed with 1 real CC photo + 5 original diagrams, redeployed & verified | Fixed same evening, 29 Sep |
+| 10–15 real study participants | ❌ not started — 0/0 as of 29 Sep evening | — | **Ashraf's responsibility — the actual bottleneck now** |
 | Small n (10–15) → wide CIs | N/A | Bootstrap CIs reported honestly; anchor sites; pooled primary endpoint; per-question results marked indicative | Accepted risk — see below |
 | Photos, not field visits | N/A | Both arms see identical media, so comparison stays fair; limit stated explicitly in video/README | Accepted risk — Ashraf declined field visits |
 

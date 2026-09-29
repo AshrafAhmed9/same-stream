@@ -3,6 +3,7 @@ import { getOrCreateParticipant, markConsented, getSites } from "./study/assign"
 import { API_BASE } from "./lib/api";
 import { runSite, showOrientationIfNeeded, type SiteResult } from "./form/engine";
 import { renderResultsPage } from "./results/page";
+import { localStorageQueue, readQueue, enqueueById, dequeueById } from "./lib/offlineQueue";
 
 const app = document.getElementById("app")!;
 
@@ -21,21 +22,7 @@ type SubmitPayload = {
   confidence: number;
 };
 
-const QUEUE_KEY = "same-stream:offline-queue";
-
-function queuePayload(payload: SubmitPayload) {
-  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
-  // Don't queue the same participant's session twice (e.g. a retry that
-  // itself fails shouldn't duplicate the entry already sitting there).
-  const withoutDup = queue.filter((p) => p.participantId !== payload.participantId);
-  withoutDup.push(payload);
-  localStorage.setItem(QUEUE_KEY, JSON.stringify(withoutDup));
-}
-
-function dequeuePayload(participantId: string) {
-  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
-  localStorage.setItem(QUEUE_KEY, JSON.stringify(queue.filter((p) => p.participantId !== participantId)));
-}
+const queueStorage = localStorageQueue("same-stream:offline-queue");
 
 async function postSubmit(payload: SubmitPayload): Promise<boolean> {
   try {
@@ -53,11 +40,11 @@ async function postSubmit(payload: SubmitPayload): Promise<boolean> {
 async function submitSession(payload: SubmitPayload): Promise<boolean> {
   const ok = await postSubmit(payload);
   if (ok) {
-    dequeuePayload(payload.participantId);
+    dequeueById(queueStorage, "participantId", payload.participantId);
   } else {
     // Don't lose the participant's data on a network blip or a transient
     // 5xx: queue it and retry automatically next time the app loads.
-    queuePayload(payload);
+    enqueueById(queueStorage, "participantId", payload);
   }
   return ok;
 }
@@ -67,11 +54,11 @@ async function submitSession(payload: SubmitPayload): Promise<boolean> {
  * does anything. A participant who submitted on a bad connection still
  * ends up in the dataset once they (or anyone) reopens the page online. */
 async function flushOfflineQueue() {
-  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
+  const queue = readQueue<SubmitPayload>(queueStorage);
   if (queue.length === 0) return;
   for (const payload of queue) {
     const ok = await postSubmit(payload);
-    if (ok) dequeuePayload(payload.participantId);
+    if (ok) dequeueById(queueStorage, "participantId", payload.participantId);
   }
 }
 
