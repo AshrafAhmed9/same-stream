@@ -8,7 +8,6 @@
 import { OAH_QUESTIONS, type OahQuestion } from "./oah-source";
 
 export interface GuidedOverride {
-  id: string;
   /** Replaces `prompt`. Leave undefined to keep the original. */
   prompt?: string;
   /** Replaces `info`. */
@@ -107,7 +106,7 @@ export const ORIENTATION_STEP = {
 export function getGuidedQuestion(oahId: string): OahQuestion & GuidedOverride {
   const base = OAH_QUESTIONS.find((q) => q.id === oahId);
   if (!base) throw new Error(`No OAH question with id ${oahId}`);
-  const override = GUIDED_OVERRIDES[oahId] ?? { id: oahId };
+  const override = GUIDED_OVERRIDES[oahId] ?? {};
   return {
     ...base,
     ...override,

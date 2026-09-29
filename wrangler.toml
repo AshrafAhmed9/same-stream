@@ -1,0 +1,8 @@
+name = "same-stream"
+main = "worker/index.ts"
+compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "same-stream-db"
+database_id = "51c4c889-f810-4ca6-bda8-332a4ca9ddec"

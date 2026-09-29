@@ -52,8 +52,9 @@
    - ENORA API (`api.enora-oah.eu/api/*`): confirmed live and open, no key
      needed, for `/sites/all` (106 sites), `/citizens/stream_assessments`,
      `/resilience-map/health-risks` (96 rows). Blocks cross-origin browser
-     calls → must proxy through our Worker. Proxy built and tested: see
-     `worker/index.ts`. ✅ / ⬜ (update once proxy deployed+tested live)
+     calls → proxied through our Worker. Deployed and tested live: 29 Sep
+     2026, `curl https://same-stream.ashrafahmed1232.workers.dev/api/oah/citizens/bank_types`
+     returns the real vocabulary. ✅
    - HL7 FHIR OAH sandbox (`sandbox.hl7europe.eu`): DNS did not resolve on 27
      Sep 2026, confirmed down (also independently reported by 2 competitor
      repos as down since 23 Sep). Routed around: FHIR export validated
@@ -65,8 +66,9 @@
      (dev.thejobsjungle2@gmail.com) — confirm with Ashraf which account should
      own the deployed submission before final freeze, since Devpost judges
      will visit the live URL under this account.
-   - Recruiting 10–15 real participants: Ashraf's responsibility, in progress
-     as of 29 Sep.
+   - Recruiting 10–15 real participants: Ashraf's responsibility. Study is
+     LIVE at https://same-stream.pages.dev as of 29 Sep 2026 evening —
+     recruitment can start immediately.
 7. Ashraf approved the idea after seeing 3 candidates (T1 reliability study,
    T4 storytelling, T6 rain-flag) with reasoning, plus 2 data-only fallbacks
    (invasive-plant shortlist, One Health storytelling). Chose the reliability

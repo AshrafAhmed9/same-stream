@@ -7,3 +7,6 @@ dist/
 worker/data.sqlite*
 scratch/
 
+.venv/
+*.pyc
+__pycache__/
