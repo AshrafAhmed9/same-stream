@@ -29,7 +29,7 @@ export interface GuidedOverride {
 
 export const GUIDED_OVERRIDES: Record<string, GuidedOverride> = {
   channel_form: {
-    extraReferenceImages: ["urban/channel-form-concrete-trapezoid.jpg"],
+    extraReferenceImages: ["urban/channel-form-concrete-trapezoid.svg"],
     preNote: "The app's pictures show rural streams. Here's an urban example too.",
   },
   bank_type: {
@@ -64,7 +64,7 @@ export const GUIDED_OVERRIDES: Record<string, GuidedOverride> = {
   },
   barriers: {
     prompt: "Do you see any dam, weir, or other artificial wall crossing the stream (any size)?",
-    extraReferenceImages: ["urban/small-urban-weir.jpg"],
+    extraReferenceImages: ["urban/small-urban-weir.svg"],
   },
   draining_pipes: {
     prompt: "Do you see a pipe entering the stream?",
@@ -78,20 +78,20 @@ export const GUIDED_OVERRIDES: Record<string, GuidedOverride> = {
     prompt: "If there's a pipe: does what's coming out look dirty, grey, or smelly (not clear rainwater)?",
   },
   impervious_left: {
-    extraReferenceImages: ["urban/impervious-threshold-example.jpg"],
+    extraReferenceImages: ["urban/impervious-threshold-example.svg"],
   },
   impervious_right: {
-    extraReferenceImages: ["urban/impervious-threshold-example.jpg"],
+    extraReferenceImages: ["urban/impervious-threshold-example.svg"],
   },
   vegetation_type_left: {
     prompt:
       "Looking at the left margin (facing downstream), what's the tallest plant type that covers more than half the ground: under waist height, taller bushes, or full trees?",
-    extraReferenceImages: ["urban/vegetation-height-scale.jpg"],
+    extraReferenceImages: ["urban/vegetation-height-scale.svg"],
   },
   vegetation_type_right: {
     prompt:
       "Looking at the right margin (facing downstream), what's the tallest plant type that covers more than half the ground: under waist height, taller bushes, or full trees?",
-    extraReferenceImages: ["urban/vegetation-height-scale.jpg"],
+    extraReferenceImages: ["urban/vegetation-height-scale.svg"],
   },
 };
 
@@ -100,7 +100,7 @@ export const ORIENTATION_STEP = {
   title: "Which way is downstream?",
   body:
     "Left and right always mean the side you'd see facing the direction the water is flowing — not your own left and right as you look at the photo. Find the direction of flow first (look for ripples, debris, or the general slope), then imagine standing in the stream facing that way.",
-  image: "urban/orientation-diagram.jpg",
+  image: "urban/orientation-diagram.svg",
 };
 
 export function getGuidedQuestion(oahId: string): OahQuestion & GuidedOverride {

@@ -7,6 +7,7 @@
 import { OAH_QUESTIONS, STUDY_QUESTIONS, OVERALL_RATINGS, type OahQuestion } from "../questions/oah-source";
 import { getGuidedQuestion, ORIENTATION_STEP, GUIDED_OVERRIDES } from "../questions/guided";
 import { getSiteById, type Arm, type ParticipantState } from "../study/assign";
+import { remainderCode, NOT_SURE } from "./decomposed";
 
 export type Answers = Record<string, string | string[]>;
 
@@ -17,8 +18,6 @@ export interface SiteResult {
   msStarted: number;
   msFinished: number;
 }
-
-const NOT_SURE = "NOT_SURE";
 
 function el(html: string): HTMLElement {
   const div = document.createElement("div");
@@ -153,13 +152,10 @@ function renderDecomposedSequence(
   onAnswer: (code: string) => void
 ) {
   let stepIdx = 0;
-  const allCodes = new Set((question.options ?? []).map((o) => o.code));
-  const usedCodes = new Set(steps.map((s) => s.yesCode).filter(Boolean) as string[]);
-  const remainder = [...allCodes].find((c) => !usedCodes.has(c));
 
   const showStep = () => {
     if (stepIdx >= steps.length) {
-      onAnswer(remainder ?? steps[steps.length - 1]?.yesCode ?? NOT_SURE);
+      onAnswer(remainderCode(question, steps));
       return;
     }
     const step = steps[stepIdx];

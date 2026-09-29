@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <rect width="400" height="260" fill="#eef2ee"/>
+  <!-- ground -->
+  <rect x="0" y="0" width="400" height="180" fill="#dce6de"/>
+  <!-- trapezoid concrete channel (wide top, narrow bottom, sloped sides) -->
+  <polygon points="40,60 360,60 300,170 100,170" fill="#b9bfc2" stroke="#5a6165" stroke-width="3"/>
+  <!-- water at bottom -->
+  <polygon points="140,140 260,140 250,170 150,170" fill="#6fa8c9"/>
+  <!-- concrete texture lines -->
+  <line x1="60" y1="70" x2="105" y2="165" stroke="#8c9296" stroke-width="1"/>
+  <line x1="90" y1="65" x2="130" y2="165" stroke="#8c9296" stroke-width="1"/>
+  <line x1="310" y1="65" x2="270" y2="165" stroke="#8c9296" stroke-width="1"/>
+  <line x1="340" y1="70" x2="295" y2="165" stroke="#8c9296" stroke-width="1"/>
+  <!-- labels -->
+  <text x="200" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#14251f" font-weight="600">Concrete trapezoid channel (urban example)</text>
+  <text x="200" y="155" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#14251f">water</text>
+  <text x="65" y="115" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3a4a42" transform="rotate(-58 65 115)">sloped concrete bank</text>
+  <text x="335" y="115" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#3a4a42" transform="rotate(58 335 115)">sloped concrete bank</text>
+  <line x1="20" y1="200" x2="380" y2="200" stroke="#5a6b63" stroke-width="1"/>
+  <text x="200" y="220" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5a6b63">Wider than it is deep, straight artificial sides — common in culverted city streams,</text>
+  <text x="200" y="236" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#5a6b63">unlike the rural U/V examples in the OneAquaHealth app's own reference image.</text>
+</svg>

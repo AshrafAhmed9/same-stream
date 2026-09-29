@@ -27,10 +27,22 @@ handle. This is noted in `PREREGISTRATION.md` as a scope limitation, not
 hidden.
 
 ## Reference/urban imagery (guided-flow extras)
-Images referenced from `public/reference-photos/urban/` (gabion mesh, small
-urban weir, concrete trapezoid channel, vegetation height scale, orientation
-diagram) are original diagrams/photos prepared for this project — see that
-folder's own credits file once populated.
+`public/reference-photos/urban/`:
+
+| File | What it is |
+|---|---|
+| `gabion-mesh-example.jpg` | Real photo, Parque de la Biodiversidad, Vitoria-Gasteiz — Zarateman, CC BY-SA 4.0. [commons.wikimedia.org/wiki/File:Vitoria_-_Arriaga_-_Parque_de_la_Biodiversidad_03.jpg](https://commons.wikimedia.org/wiki/File:Vitoria_-_Arriaga_-_Parque_de_la_Biodiversidad_03.jpg) |
+| `channel-form-concrete-trapezoid.svg` | Original diagram, made for this project |
+| `small-urban-weir.svg` | Original diagram, made for this project |
+| `orientation-diagram.svg` | Original diagram, made for this project |
+| `vegetation-height-scale.svg` | Original diagram, made for this project |
+| `impervious-threshold-example.svg` | Original diagram, made for this project |
+
+The five SVGs are original, hand-authored illustrations — not photos, and
+not claimed to be. They exist because a labeled diagram teaches a threshold
+or a spatial concept (which way is downstream, what 1/3 of a margin looks
+like) better than a mediocre stock photo would, and a bad substitute photo
+would be worse than being honest about using a diagram.
 
 ## OAH app's own reference images
 `public/reference-photos/oah-app/1.png` through `20.png`/`.jpg` are mirrored

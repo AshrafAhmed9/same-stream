@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 275" width="400" height="275">
+  <rect width="400" height="275" fill="#eef2ee"/>
+  <text x="200" y="26" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#14251f" font-weight="600">Left / right = facing downstream</text>
+  <!-- stream flowing top to bottom-ish, curving -->
+  <path d="M170 50 C 140 100, 240 140, 200 220" stroke="#6fa8c9" stroke-width="34" fill="none" stroke-linecap="round"/>
+  <!-- flow arrow -->
+  <path d="M200 200 L200 225 M190 215 L200 228 L210 215" stroke="#0f6e4f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="235" y="230" font-family="sans-serif" font-size="11" fill="#0f6e4f" font-weight="600">flow direction</text>
+  <!-- stick figure standing in stream at top, facing downstream (down the page) -->
+  <g transform="translate(170,75)">
+    <circle cx="0" cy="0" r="8" fill="#14251f"/>
+    <line x1="0" y1="8" x2="0" y2="30" stroke="#14251f" stroke-width="3"/>
+    <line x1="0" y1="14" x2="-12" y2="24" stroke="#14251f" stroke-width="3"/>
+    <line x1="0" y1="14" x2="12" y2="24" stroke="#14251f" stroke-width="3"/>
+    <line x1="0" y1="30" x2="-8" y2="46" stroke="#14251f" stroke-width="3"/>
+    <line x1="0" y1="30" x2="8" y2="46" stroke="#14251f" stroke-width="3"/>
+  </g>
+  <text x="170" y="118" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#14251f" font-weight="600">you, facing</text>
+  <text x="170" y="131" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#14251f" font-weight="600">downstream</text>
+  <!-- L / R labels relative to facing direction -->
+  <text x="70" y="95" font-family="sans-serif" font-size="20" fill="#9c3b2c" font-weight="700">L</text>
+  <text x="270" y="95" font-family="sans-serif" font-size="20" fill="#0f6e4f" font-weight="700">R</text>
+  <text x="200" y="252" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a6b63">Your own left/right depend on which way you're looking —</text>
+  <text x="200" y="266" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#5a6b63">the stream's left/right don't.</text>
+</svg>
