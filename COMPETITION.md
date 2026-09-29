@@ -124,6 +124,21 @@ export, and analysis pipeline are all built, deployed, and tested. The one
 thing not yet true is real participant data — 0 baseline / 0 guided as of
 this writing. This is now the single blocking item for every claim above.
 
+**Full end-to-end pipeline verified live, 29 Sep 2026:** 3 automated
+browser sessions (2 guided, 1 baseline) ran consent → orientation (guided
+only) → all 8 sites × every question type (single/multi/yesno/number,
+decomposed sequences, evidence recap) → end survey → submit, against the
+live deployed URL. All 3 completed with zero JS errors, and all 136
+expected rows per session landed correctly in D1 (verified via
+`/api/results`). The live results page correctly computed α on the
+resulting data (e.g. guided pooled α = 0.78, 95% CI 0.70–0.85) and
+correctly reported "not enough data yet" for the single-participant
+baseline arm — proving the "not enough data" path works too, not just the
+happy path. **This test data was then purged from D1** (`DELETE FROM
+responses; DELETE FROM sessions;`) so it doesn't contaminate the real,
+pre-registered dataset — confirmed clean via `/api/results` returning `[]`
+before any real participant starts.
+
 ## Critical path and limitations
 | Dependency or limitation | Proven live? | Routed around | If not, why |
 |---|---|---|---|
