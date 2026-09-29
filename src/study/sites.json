@@ -1,0 +1,82 @@
+{
+  "sites": [
+    {
+      "id": "oslo-akerselva-kuba",
+      "city": "Oslo",
+      "stream": "Akerselva",
+      "image": "/study-sites/oslo-akerselva-kuba.jpg",
+      "anchor": false
+    },
+    {
+      "id": "oslo-akerselva-natural",
+      "city": "Oslo",
+      "stream": "Akerselva",
+      "image": "/study-sites/oslo-akerselva-natural.jpg",
+      "anchor": true,
+      "anchorKey": {
+        "bank_type": "NAT",
+        "impervious_left": "No",
+        "impervious_right": "No",
+        "vegetation_left": "Yes",
+        "vegetation_right": "Yes"
+      },
+      "anchorNote": "Natural anchor: unmodified banks, no adjacent hardscape, vegetation on both margins. Verified by visual inspection of the source photo (see media/CREDITS.md)."
+    },
+    {
+      "id": "oslo-alna-svartdalen",
+      "city": "Oslo",
+      "stream": "Alna",
+      "image": "/study-sites/oslo-alna-svartdalen.jpg",
+      "anchor": false
+    },
+    {
+      "id": "toulouse-hersmort-bridge",
+      "city": "Toulouse",
+      "stream": "Hers-Mort",
+      "image": "/study-sites/toulouse-hersmort-bridge.jpg",
+      "anchor": false
+    },
+    {
+      "id": "toulouse-hersmort-culvert",
+      "city": "Toulouse",
+      "stream": "Hers-Mort",
+      "image": "/study-sites/toulouse-hersmort-culvert.jpg",
+      "anchor": false
+    },
+    {
+      "id": "ghent-reep-canal",
+      "city": "Ghent",
+      "stream": "Reep",
+      "image": "/study-sites/ghent-reep-canal.jpg",
+      "anchor": true,
+      "anchorKey": {
+        "bank_type": "ART",
+        "impervious_left": "Yes",
+        "impervious_right": "Yes",
+        "vegetation_left": "No",
+        "vegetation_right": "No"
+      },
+      "anchorNote": "Artificial anchor: fully masonry-walled urban canal, paved quaysides on both sides, no vegetation on either bank. Verified by visual inspection of the source photo (see media/CREDITS.md)."
+    },
+    {
+      "id": "coimbra-mondego",
+      "city": "Coimbra",
+      "stream": "Mondego",
+      "image": "/study-sites/coimbra-mondego.jpg",
+      "anchor": false,
+      "scopeNote": "Wider river reach, not a small urban stream — disclosed limitation, see media/CREDITS.md"
+    },
+    {
+      "id": "benevento-calore-lowflow",
+      "city": "Benevento",
+      "stream": "Calore",
+      "image": "/study-sites/benevento-calore-lowflow.jpg",
+      "anchor": false,
+      "scopeNote": "Wider river reach at low flow, not a small urban stream — disclosed limitation, see media/CREDITS.md"
+    }
+  ],
+  "siteGroups": {
+    "A": ["oslo-akerselva-kuba", "oslo-akerselva-natural", "oslo-alna-svartdalen", "ghent-reep-canal"],
+    "B": ["toulouse-hersmort-bridge", "toulouse-hersmort-culvert", "coimbra-mondego", "benevento-calore-lowflow"]
+  }
+}
