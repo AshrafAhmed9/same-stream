@@ -22,6 +22,19 @@ export function remainderCode(question: OahQuestion, steps: DecomposedStep[]): s
   return remainder ?? steps[steps.length - 1]?.yesCode ?? NOT_SURE;
 }
 
+/**
+ * Guided-flow special case (docs/mapping.md: draining_pipes + sewage_discharge
+ * "combined into one guided screen"). If the gate question (draining_pipes)
+ * was answered "No" — no pipe seen — sewage_discharge has nothing to
+ * follow up on: it should be auto-answered "No" and skipped, not asked
+ * again. Extracted as a pure function so the skip condition is tested
+ * directly, after a real bug here (the value was being set and then
+ * immediately overwritten by rendering the question anyway).
+ */
+export function shouldAutoAnswerSewageDischarge(answers: Record<string, string | string[]>): boolean {
+  return answers["draining_pipes"] === "No";
+}
+
 export type StepAnswer = "yes" | "no" | "unsure";
 
 /**

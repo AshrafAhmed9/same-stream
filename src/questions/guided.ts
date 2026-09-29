@@ -67,12 +67,21 @@ export const GUIDED_OVERRIDES: Record<string, GuidedOverride> = {
     extraReferenceImages: ["urban/small-urban-weir.svg"],
   },
   draining_pipes: {
+    // Plain yesno question — NOT `decomposed`. `decomposed` sequences
+    // resolve via remainderCode(), which needs question.options to exist
+    // (true for single/multi questions like bank_type and water_flow, but
+    // draining_pipes is `kind: "yesno"` with no .options). A single decomposed
+    // step here used to make a "No" answer silently resolve to NOT_SURE
+    // instead of "No" — caught by scratch/verify-fix.mjs against the live
+    // deployed app, not by a unit test, which is why the
+    // sewage_discharge-skip logic in engine.ts never fired even though its
+    // own unit tests passed (they tested the skip condition in isolation,
+    // not that draining_pipes could ever actually produce "No" to trigger
+    // it). The prompt rewrite alone is enough; the "gate" behavior lives in
+    // engine.ts via shouldAutoAnswerSewageDischarge, which only works
+    // because this question now renders as an ordinary yesno and can
+    // actually answer "No".
     prompt: "Do you see a pipe entering the stream?",
-    decomposed: {
-      steps: [
-        { prompt: "Do you see a pipe entering the stream?", yesCode: null }, // gate; see sewage_discharge for split
-      ],
-    },
   },
   sewage_discharge: {
     prompt: "If there's a pipe: does what's coming out look dirty, grey, or smelly (not clear rainwater)?",

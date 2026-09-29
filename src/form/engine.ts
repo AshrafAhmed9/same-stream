@@ -7,7 +7,7 @@
 import { OAH_QUESTIONS, STUDY_QUESTIONS, OVERALL_RATINGS, type OahQuestion } from "../questions/oah-source";
 import { getGuidedQuestion, ORIENTATION_STEP, GUIDED_OVERRIDES } from "../questions/guided";
 import { getSiteById, type Arm, type ParticipantState } from "../study/assign";
-import { remainderCode, NOT_SURE } from "./decomposed";
+import { remainderCode, NOT_SURE, shouldAutoAnswerSewageDischarge } from "./decomposed";
 
 export type Answers = Record<string, string | string[]>;
 
@@ -331,15 +331,26 @@ export function runSite(
     }
 
     const baseQ = STUDY_QUESTIONS[qi];
+
+    // Guided special-case (docs/mapping.md: draining_pipes + sewage_discharge
+    // "combined into one guided screen"): if the gate question was already
+    // answered "No" (no pipe seen), sewage_discharge has nothing to follow
+    // up on — skip it and auto-answer "No" rather than asking again, which
+    // would silently overwrite this shortcut with whatever the participant
+    // clicks next (that was the actual bug here: setting the value and then
+    // still rendering the question meant the shortcut never survived).
+    if (arm === "guided" && baseQ.id === "sewage_discharge" && shouldAutoAnswerSewageDischarge(answers)) {
+      answers["sewage_discharge"] = "No";
+      qi++;
+      askNext();
+      return;
+    }
+
     const q = arm === "guided" ? getGuidedQuestion(baseQ.id) : baseQ;
     const decomposed = arm === "guided" ? GUIDED_OVERRIDES[baseQ.id]?.decomposed : undefined;
 
     const advance = (val: string | string[]) => {
       answers[baseQ.id] = val;
-      // Guided special-case: draining_pipes gate feeds sewage_discharge.
-      if (arm === "guided" && baseQ.id === "draining_pipes" && val === "No") {
-        answers["sewage_discharge"] = "No";
-      }
       qi++;
       askNext();
     };

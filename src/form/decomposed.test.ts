@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveDecomposedSequence, remainderCode, NOT_SURE } from "./decomposed";
+import { resolveDecomposedSequence, remainderCode, NOT_SURE, shouldAutoAnswerSewageDischarge } from "./decomposed";
 import { OAH_QUESTIONS } from "../questions/oah-source";
 import { GUIDED_OVERRIDES } from "../questions/guided";
 
@@ -41,5 +41,50 @@ describe("resolveDecomposedSequence: water_flow (dry? -> fast? -> stagnant? -> s
     const codes = new Set((waterFlow.options ?? []).map((o) => o.code));
     const covered = new Set(flowSteps.map((s) => s.yesCode));
     expect(covered).toEqual(codes);
+  });
+});
+
+describe("guided-flow structural guard (regression test for a real bug)", () => {
+  // A `decomposed` sequence resolves a leftover "no to everything" case via
+  // remainderCode(), which needs question.options to exist. draining_pipes
+  // (kind: "yesno", no .options) used to have a 1-step `decomposed` block
+  // as a "gate", and answering "No" silently resolved to NOT_SURE instead
+  // of "No" — found by testing the live deployed app, not by a unit test,
+  // because the bug was in a combination no existing test covered. This
+  // guard makes that combination impossible to reintroduce for ANY
+  // question, not just draining_pipes.
+  it("only single-kind questions (which have .options) ever declare a decomposed sequence", () => {
+    for (const [id, override] of Object.entries(GUIDED_OVERRIDES)) {
+      if (!override.decomposed) continue;
+      const question = OAH_QUESTIONS.find((q) => q.id === id)!;
+      expect(question.kind, `${id} has a decomposed sequence but is kind=${question.kind}, not "single"`).toBe(
+        "single"
+      );
+      expect(question.options?.length, `${id}'s decomposed sequence needs question.options to resolve its remainder`).toBeGreaterThan(0);
+    }
+  });
+
+  it("draining_pipes is a plain yesno with no decomposed sequence, so it can actually answer 'No'", () => {
+    expect(GUIDED_OVERRIDES.draining_pipes?.decomposed).toBeUndefined();
+  });
+});
+
+describe("shouldAutoAnswerSewageDischarge (regression test for a real bug)", () => {
+  // Bug: engine.ts used to set answers.sewage_discharge = "No" as a
+  // shortcut when draining_pipes = "No", but then still rendered the
+  // sewage_discharge question afterward, silently overwriting the
+  // shortcut with the participant's next click. Fixed by skipping the
+  // question entirely when this returns true.
+  it("is true when the gate question (draining_pipes) was answered No", () => {
+    expect(shouldAutoAnswerSewageDischarge({ draining_pipes: "No" })).toBe(true);
+  });
+  it("is false when a pipe was seen (draining_pipes = Yes)", () => {
+    expect(shouldAutoAnswerSewageDischarge({ draining_pipes: "Yes" })).toBe(false);
+  });
+  it("is false when draining_pipes hasn't been answered yet", () => {
+    expect(shouldAutoAnswerSewageDischarge({})).toBe(false);
+  });
+  it("is false when draining_pipes was NOT_SURE (still needs its own answer)", () => {
+    expect(shouldAutoAnswerSewageDischarge({ draining_pipes: NOT_SURE })).toBe(false);
   });
 });
