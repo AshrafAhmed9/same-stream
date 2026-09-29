@@ -12,14 +12,32 @@ function el(html: string): HTMLElement {
   return d.firstElementChild as HTMLElement;
 }
 
-async function submitSession(payload: {
+type SubmitPayload = {
   participantId: string;
   arm: string;
   seed: number;
   siteResults: SiteResult[];
   ease: number;
   confidence: number;
-}) {
+};
+
+const QUEUE_KEY = "same-stream:offline-queue";
+
+function queuePayload(payload: SubmitPayload) {
+  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
+  // Don't queue the same participant's session twice (e.g. a retry that
+  // itself fails shouldn't duplicate the entry already sitting there).
+  const withoutDup = queue.filter((p) => p.participantId !== payload.participantId);
+  withoutDup.push(payload);
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(withoutDup));
+}
+
+function dequeuePayload(participantId: string) {
+  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(queue.filter((p) => p.participantId !== participantId)));
+}
+
+async function postSubmit(payload: SubmitPayload): Promise<boolean> {
   try {
     const res = await fetch(`${API_BASE}/api/submit`, {
       method: "POST",
@@ -28,12 +46,32 @@ async function submitSession(payload: {
     });
     return res.ok;
   } catch {
-    // Network/worker failure: don't lose the participant's data. Fall back
-    // to an offline queue the participant (or Ashraf) can retry/export.
-    const queue = JSON.parse(localStorage.getItem("same-stream:offline-queue") ?? "[]");
-    queue.push(payload);
-    localStorage.setItem("same-stream:offline-queue", JSON.stringify(queue));
-    return false;
+    return false; // network failure (offline, worker unreachable, etc.)
+  }
+}
+
+async function submitSession(payload: SubmitPayload): Promise<boolean> {
+  const ok = await postSubmit(payload);
+  if (ok) {
+    dequeuePayload(payload.participantId);
+  } else {
+    // Don't lose the participant's data on a network blip or a transient
+    // 5xx: queue it and retry automatically next time the app loads.
+    queuePayload(payload);
+  }
+  return ok;
+}
+
+/** Retries anything left in the offline queue from a previous failed
+ * submission — runs once on every app load, silently, before the user
+ * does anything. A participant who submitted on a bad connection still
+ * ends up in the dataset once they (or anyone) reopens the page online. */
+async function flushOfflineQueue() {
+  const queue: SubmitPayload[] = JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]");
+  if (queue.length === 0) return;
+  for (const payload of queue) {
+    const ok = await postSubmit(payload);
+    if (ok) dequeuePayload(payload.participantId);
   }
 }
 
@@ -176,3 +214,4 @@ function router() {
 
 window.addEventListener("hashchange", router);
 router();
+flushOfflineQueue();
