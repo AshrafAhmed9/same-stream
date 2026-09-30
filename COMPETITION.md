@@ -1,17 +1,56 @@
 # OneAquaHealth IEEE Global Hackathon 2026 — "Same Stream"
 
-## Headline (written before building)
-> Two volunteers looking at the same stream should report the same thing. We
-> measured how often they do with today's OneAquaHealth form, then redesigned
-> it until they did.
-- Number it rests on (vs which baseline): Krippendorff's α, guided flow vs a
-  pixel-faithful replica of the current OAH citizen form, on the 12
-  photo-answerable questions plus the overall Good/Moderate/Poor rating.
-- Who gets hurt without it: OAH scientists and city managers who can't act on
-  citizen ratings when two volunteers disagree on the same stream; first-time
-  and older volunteers who give up on jargon (documented in the Ghent app
-  test, Oct 2025).
+## Headline (PIVOTED 1 Oct 2026 — see "Headline pivot" note below)
+> OneAquaHealth's own Ghent pilot (Oct 2025) found volunteers confused by the
+> citizen stream form's jargon. We rewrote every ambiguous question against
+> the field protocol's own definitions, kept every answer drop-in compatible
+> with the live ENORA API, and built the first reliability-testing harness
+> for the OAH form — randomized, pre-registered, ready for OAH to run with
+> real volunteers.
+- Number it rests on (vs which baseline): 12 of 16 photo-answerable
+  questions rewritten with a protocol-cited justification
+  (`docs/mapping.md`), 0 new answer codes introduced — 100% of rewrites
+  verified against the live ENORA vocabulary.
+- Who gets hurt without it: OAH scientists and city managers who can't trust
+  citizen ratings when volunteers interpret jargon differently; first-time
+  and older volunteers who give up on the current form's terms (Ghent test,
+  Oct 2025).
 - Still accurate at freeze? — TBD, check before freeze.
+
+### Headline pivot (1 Oct 2026) — read this before trusting anything above the line
+The original headline measured Krippendorff's α, guided flow vs baseline,
+from a real randomized study (target 10–15 participants). **That study was
+never run — 0 participants, ever.** Ashraf has no access to real recruits
+before the 3 Oct freeze and explicitly declined both (a) spending effort on
+recruitment channels that don't require personal contacts (hackathon
+Slack/Discord, r/SampleSize, citizen-science forums — drafted and offered)
+and (b) AI-simulated/synthetic participant data (correctly rejected twice as
+fabricated evidence — see Overruled concerns).
+
+**This is a real, material downgrade, not a framing change.** The pre-freeze
+field re-count (29 Sep) found 0 of 31 competing repos ran any controlled
+human reliability study — that was this submission's single strongest,
+hardest-to-replicate differentiator, and the entire Innovation/Impact case
+rested on having *measured* something no one else had. Without real data:
+- Kill test 2 ("the number") no longer rests on a measured outcome, only on
+  a static rewrite-count, which is real but far weaker evidence.
+- Kill test 6 ("who gets hurt") is now argued from the Ghent report, not
+  demonstrated live in our own data.
+- Freeze gate items 6, 7, 9 (proof per claim / baseline / real inputs) fail
+  for the reliability claim specifically — recorded as an accepted risk
+  below, not hidden in a limitations footnote.
+- Honest placement estimate: **dropped from "aims to beat the ~2–3% base
+  rate on unique evidence" to roughly base-rate or below it.** The
+  differentiator that justified expecting better than base rate is gone; a
+  reusable pre-registered tool that was never run is real engineering value
+  but is a materially weaker, more common submission shape (a
+  well-built proof-of-concept) than "here is a real measured result no one
+  else has."
+- What still stands, and is real: the protocol-grounded rewrite mapping, the
+  live ENORA drop-in compatibility, the validated FHIR export, and a working
+  harness OAH could literally run themselves. These are genuinely built,
+  tested, and deployed — not vaporware. They are just a smaller claim than
+  the one originally planned.
 
 ## Facts
 - Competition type: engineering-judged hackathon (Devpost).
@@ -34,8 +73,11 @@
 - Prizes: 5 cash places total (1st $1,500, runner-up $1,000, 2nd runner-up
   $500, 2 special mentions $250 each) + certificates/IEEE membership perks.
 - Honest placement estimate: ~2–3% base rate (5 places / ~150–300 entries).
-  This plan aims to beat that base rate with evidence the field lacks (real
-  user testing), not by assuming it.
+  **Updated 1 Oct 2026 after the headline pivot (see above): no longer
+  expecting to beat this base rate.** The evidence that would have beaten it
+  (a real measured reliability result, unique in the field) was never
+  collected. Placement now rests on execution quality of a well-built,
+  honestly-scoped tool, which is ordinary, not differentiated.
 
 ## Kickoff gate
 1. Rules/scoring/judges/artifact — read from source, recorded above. ✅
@@ -80,8 +122,8 @@
 ## Criteria
 | Criterion | Weight | Strategy | Evidence shown |
 |---|---|---|---|
-| Impact & OAH alignment | 30% | Named harm (untrustworthy citizen data blocks real use); real OAH health-risk data on the benefit screen; findings handed back to OAH | Video ≤15s harm statement; benefit screen; findings doc sent to office@oneaquahealth.eu |
-| Innovation & Creativity | 20% | First controlled reliability study of the OAH form; reusable reliability-testing harness (config-driven, any question set) | Harness code + README; pre-registration timestamp in git history |
+| Impact & OAH alignment | 30% | Named harm, argued from OAH's own Ghent pilot findings (not our own measured data — pivoted 1 Oct, no participant data collected); real OAH health-risk data on the benefit screen | Video harm statement citing Ghent test; benefit screen |
+| Innovation & Creativity | 20% | **Downgraded 1 Oct:** reusable, pre-registered reliability-testing harness (config-driven, any question set), built and ready but never run — disclosed as future work for OAH, not a completed study | Harness code + README; pre-registration timestamp in git history; honest "not yet run" note in README/video |
 | Technical Implementation | 20% | Live ENORA API integration via Worker proxy; FHIR R4 export; D1-backed study harness; automated α computation | Deployed URL; passing tests; FHIR validator output |
 | UX | 15% | Guided flow redesign targeting measured failure points; urban reference photos; plain-language rewrites | Side-by-side demo in video; SUS/ease scores from pilot |
 | Feasibility & Scale | 15% | Drop-in ENORA answer codes; harness reusable by OAH for any question, any language | README "how OAH could adopt this" section |
@@ -118,17 +160,20 @@
 ## Claims
 | Claim | Verifiable proof | Built? | Where a judge sees it |
 |---|---|---|---|
-| Guided flow improves inter-rater agreement | Krippendorff's α, guided vs baseline replica, bootstrap 95% CI, pre-registered before data collection | ✅ built, ⬜ awaiting real participant data | Results page (live, currently 0/0 — see below) + video + README |
-| Guided flow preserves meaning (isn't just easier-to-agree-on-anything) | Anchor sites with unambiguous answer keys; accuracy reported alongside agreement | ✅ built (2 anchors, live accuracy card), ⬜ awaiting data | Results page, `docs/mapping.md` |
+| Guided flow improves inter-rater agreement | Krippendorff's α, guided vs baseline replica, bootstrap 95% CI, pre-registered before data collection | ✅ harness built & pre-registered, ❌ **never run — 0 participants, permanently, per the 1 Oct pivot.** Not a claim of this submission. | Results page shows the live "not enough data" path honestly; README states plainly this was designed but not executed |
+| Guided flow preserves meaning (isn't just easier-to-agree-on-anything) | Anchor sites with unambiguous answer keys; accuracy reported alongside agreement | ✅ built (2 anchors, live accuracy card), ❌ no data to report — same pivot | Results page (shows empty-state honestly), `docs/mapping.md` |
 | Drop-in compatible with real OAH app | Answer codes fetched live from ENORA API vocabularies, not hardcoded | ✅ deployed & curl-tested 29 Sep | Worker proxy code (`worker/index.ts`) + live `/api/oah/*` calls |
 | FHIR-exportable | Passes HL7 R4 structural validation against `hl7-eu/oah` IG concepts (via public HAPI, since OAH sandbox is down) | ✅ 0 errors on all 4 generated Observations, 29 Sep | `src/lib/fhir.ts` + `docs/fhir-export.md` |
 | Reliability math is correct, not just plausible | Both TS and Python implementations match Krippendorff's own published worked example (0.743) | ✅ 4 tests, both languages | `src/lib/krippendorff.test.ts`, `analysis/tests/test_reliability.py`, CI green |
 | Guided-flow images are real, not silently broken | Every referenced image returns 200 on the live deploy | ✅ verified 29 Sep — found and fixed 6 broken references first | `media/CREDITS.md` |
+| Rewrites are meaning-preserving, not arbitrary simplification | Every guided question maps 1:1 to the original ENORA answer code and cites the Zenodo field protocol's own definition | ✅ 12/16 photo-answerable questions rewritten, each cited | `docs/mapping.md` (this is now the submission's primary technical/UX evidence, replacing the reliability claim) |
 
-**Status as of 29 Sep 2026, evening:** the product, study harness, FHIR
-export, and analysis pipeline are all built, deployed, and tested. The one
-thing not yet true is real participant data — 0 baseline / 0 guided as of
-this writing. This is now the single blocking item for every claim above.
+**Status as of 1 Oct 2026 (post-pivot):** the product, study harness, FHIR
+export, and analysis pipeline are all built, deployed, and tested. Real
+participant data was never collected and will not be — see "Headline pivot"
+above. The submission now rests on the rows marked ✅ in this table, not the
+two marked ❌. Those two stay in the table, not deleted, so the gap is
+visible rather than quietly dropped.
 
 **Full end-to-end pipeline verified live, 29 Sep 2026:** 3 automated
 browser sessions (2 guided, 1 baseline) ran consent → orientation (guided
@@ -163,6 +208,16 @@ before any real participant starts.
 - Ashraf declined AI-simulated participants (correctly — would be fabricated
   evidence and likely detected by a judge who co-designed the human protocol).
   Real recruitment required instead.
+- 1 Oct 2026: Ashraf declined synthetic/AI-generated participant data a
+  second time when re-raised under time pressure (still correctly rejected —
+  same reasoning as above). Also declined the lowest-effort real-recruitment
+  option (one broadcast message to existing contacts, offered as taking
+  under a minute) and the free public-channel recruitment drafts (hackathon
+  Slack, r/SampleSize, citizen-science forums), stating no time for any
+  human recruitment. **Accepted: pivot the headline away from the
+  reliability claim entirely rather than fabricate or skip evidence.** This
+  is recorded as a real, material downgrade in placement expectation, not a
+  neutral pivot — see "Headline pivot" note at the top of this file.
 
 ## Freeze gate
 (Fill in with evidence — file paths, command output, URLs, video timestamps —

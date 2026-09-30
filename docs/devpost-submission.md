@@ -1,8 +1,18 @@
-# Devpost submission text (draft — fill in [BRACKETS] from analysis/results.json before pasting)
+# Devpost submission text (draft — pivoted 1 Oct 2026, no [BRACKETS] left to fill)
 
 Written for: hackathon judges reading the Devpost project page (not a
 casual reader — assume they know the OneAquaHealth app and the judging
 criteria, and that they'll skim before they read).
+
+**Pivot note (read this, not just the text below):** this draft originally
+led with a measured Krippendorff's α from a real randomized study. That
+study was built, deployed, and tested end-to-end, but never run on real
+participants — 0, and it will stay that way before the deadline. Rather
+than publish a number that doesn't exist or fabricate one, this submission
+is honest about that gap and leads with what's actually true: a
+protocol-grounded redesign, live drop-in compatibility with the real app,
+and a finished reliability-testing harness handed to OneAquaHealth to run
+themselves. See `COMPETITION.md` → "Headline pivot" for the full reasoning.
 
 ---
 
@@ -12,46 +22,48 @@ criteria, and that they'll skim before they read).
 
 ## Tagline (under the project name)
 
-Does OneAquaHealth's citizen stream form get the same answer from two
-different people? We measured it, then fixed what didn't.
+OneAquaHealth's own testing found volunteers confused by the citizen
+stream form. We rewrote every question against the field protocol, kept it
+drop-in compatible with the real app, and built (but didn't get to run) the
+reliability study to prove it.
 
 ## Inspiration
 
 OneAquaHealth's Citizen Science App asks volunteers to assess urban
 streams — channel shape, banks, pipes, vegetation, an overall
 Good/Moderate/Poor rating. That data is only useful if different
-volunteers looking at the same stream report the same thing. We couldn't
-find anyone who'd checked whether they do, in the app, the hackathon
-sessions, or the field protocol documents — so instead of adding another
-feature on top of the form, we measured the form itself.
+volunteers looking at the same stream report the same thing. OneAquaHealth's
+own Ghent pilot test (October 2025) found volunteers getting stuck on the
+form's jargon. Instead of adding another feature on top of the form, we
+went after the questions themselves.
 
 ## What it does
 
-Same Stream is two things:
+Same Stream is three things:
 
 1. **A pixel-faithful replica of the real OneAquaHealth form** — same
    questions, same answer codes (fetched live from OneAquaHealth's own
-   API), same reference images — run against a **redesigned version**
-   that targets specific, measured points of confusion: which way is
-   "downstream," urban examples the app's rural illustrations don't
-   cover, plain language instead of terms like "transversal barrier."
-2. **A randomized reliability study.** [N] volunteers, split between the
-   two versions, each rated the same 8 real photos of streams in
-   OneAquaHealth's own research cities (Oslo, Toulouse, Ghent, Coimbra,
-   Benevento). We measured Krippendorff's alpha — the standard statistic
-   for inter-rater agreement — for both versions, pre-registered before
-   any data came in.
-
-**Result:** baseline α = [BASELINE_ALPHA], guided α = [GUIDED_ALPHA].
-[One more honest sentence once the number is in — positive result, null
-result, or mixed by site group. Never state a number here without the
-95% CI next to it.]
-
-The guided flow's answers use the exact same OneAquaHealth codes, so it
-could be dropped into the real app without changing what gets stored. We
-also export every response as a FHIR R4 bundle, and we're sending
-OneAquaHealth the per-question reliability table and our urban reference
-photos, independent of the hackathon result.
+   API), same reference images — alongside a **redesigned guided version**
+   that targets specific points of confusion: which way is "downstream,"
+   urban examples the app's rural illustrations don't cover, plain language
+   instead of terms like "transversal barrier." 12 of 16 photo-answerable
+   questions were rewritten, each one cited against OneAquaHealth's own
+   field protocol definitions (`docs/mapping.md`), and every rewrite still
+   emits the exact same OneAquaHealth answer code — zero new codes
+   introduced, so it could be dropped into the real app without changing
+   what gets stored.
+2. **A randomized reliability-testing harness**, pre-registered before any
+   data collection, that measures Krippendorff's alpha (the standard
+   inter-rater agreement statistic) between the guided and baseline
+   versions automatically, the moment real responses come in. It's live
+   and fully tested end-to-end. **We did not get real participants before
+   the deadline, so this submission reports no reliability result** — the
+   results page is shown in its honest, real empty state, not staged. Any
+   team, including OneAquaHealth's own, can point it at their volunteers
+   today and get a real number.
+3. **A FHIR R4 export**, validated against OneAquaHealth's own IG
+   definitions via a public HAPI server (their own sandbox has been down
+   since 23 Sep).
 
 ## How we built it
 
@@ -59,52 +71,60 @@ Static PWA (Vite + TypeScript, no framework) on Cloudflare Pages, backed
 by a Cloudflare Worker + D1 for storing responses and proxying
 OneAquaHealth's own citizen API (it blocks cross-origin browser calls).
 Krippendorff's alpha is implemented independently in TypeScript (for the
-live results page) and Python (for the final analysis), both checked
-against Krippendorff's own published worked example so the two never
-silently disagree. Full pre-registration, question-by-question mapping
-back to the real app and the OneAquaHealth field protocol, and FHIR
-export are all in the repo.
+live results page) and Python (for offline analysis), both checked against
+Krippendorff's own published worked example so the two never silently
+disagree — verified even though no real study data exists yet to run them
+on. Full pre-registration, a question-by-question mapping back to the real
+app and the OneAquaHealth field protocol, and FHIR export are all in the
+repo.
 
 ## Challenges we ran into
 
+- **We could not recruit real study participants in time**, and decided
+  against two shortcuts that would have looked like a result without being
+  one: synthetic/AI-generated participant data, and quietly omitting that
+  the study was never run. We're disclosing this directly instead: the
+  harness works, the study design was pre-registered, but the headline
+  number this project was originally built around does not exist in this
+  submission.
 - OneAquaHealth's own FHIR sandbox has been unreachable since 23 Sep —
   validated the export against a public HAPI R4 server instead.
 - The real app's questions already come with reference images, which
-  changed the redesign: rather than "add pictures," the guided flow had
-  to target specifically what the existing rural illustrations don't
-  cover (urban concrete channels, gabion banks).
-- Recruiting real participants for a randomized study in a one-week
-  hackathon window, without a field visit — solved with CC-licensed real
-  photos of the actual OneAquaHealth research-city streams instead of a
-  synthetic dataset.
+  changed the redesign: rather than "add pictures," the guided flow had to
+  target specifically what the existing rural illustrations don't cover
+  (urban concrete channels, gabion banks).
 
 ## Accomplishments we're proud of
 
 - Every question in the app traces back to a real line in OneAquaHealth's
   own code or API, cited by source — see `docs/mapping.md`.
-- Both implementations of the reliability statistic are tested against
-  the same published example, in both languages.
-- The whole study — not just the write-up — is the live, judged artifact:
-  the results page reads real response data, not a static mockup.
+- Both implementations of the reliability statistic are tested against the
+  same published example, in both languages, so the harness is trustworthy
+  even without data to run it on yet.
+- The whole system — replica form, guided form, results page, FHIR export —
+  is the live, judged artifact, not a write-up: it runs against
+  OneAquaHealth's real, live API today.
 
 ## What we learned
 
-[Fill in after the study closes: at least one specific, named finding —
-which question stayed unreliable even with guidance, or a limit the data
-revealed. Follow the competition skill: publish mistakes, not just wins.]
+That a measurement tool without a measurement isn't the same claim, and
+saying so plainly is worth more than a number we didn't earn. The harder
+and more honest engineering problem by far was the redesign itself —
+tracing 12 questions back to exact protocol definitions without changing a
+single stored code — and that's what this submission actually stands on.
 
 ## What's next
 
-Send the reliability table and urban reference photos to the
-OneAquaHealth team. If a question resists every rewrite we tried, that's
-worth them knowing about directly, not just publishing.
+Hand the full reliability harness and the rewrite mapping to the
+OneAquaHealth team so they can run the study we didn't have time to run,
+with their own volunteers, in any of the app's 7 languages.
 
 ---
 
 ## Submission checklist (competition skill's freeze gate, condensed)
-- [ ] Real numbers substituted everywhere, no [BRACKETS] left
-- [ ] Video uploaded, 3–5 min, under the limit
+- [ ] No reliability numbers anywhere in the text — none exist, and none are implied
+- [ ] Video uploaded, under 5 min
 - [ ] Public repo link correct: https://github.com/AshrafAhmed9/same-stream
 - [ ] Live app link correct: https://same-stream.pages.dev
 - [ ] Track selected as Track 1 on the Devpost form
-- [ ] Screenshots attached (guided flow, results page, side-by-side demo)
+- [ ] Screenshots attached (guided flow, mapping doc, FHIR validation, results page's real empty state)
