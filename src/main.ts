@@ -76,6 +76,9 @@ function renderConsent() {
       of streams in OneAquaHealth's own research cities and answer the same
       kind of questions the real app asks. No account, no personal data —
       just your answers, a random id, and how long you took.</p>
+      <p class="muted"><strong>Status:</strong> the study is built and open, and recruitment
+      was minimal. The results page shows exactly how many people have
+      completed it so far, including zero.</p>
       <p class="muted">This is independent research for the OneAquaHealth
       IEEE Global Hackathon, not run by OneAquaHealth itself. Your answers
       may be shown (anonymously) in the results and shared with the

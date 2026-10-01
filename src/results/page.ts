@@ -109,7 +109,7 @@ export async function renderResultsPage(app: HTMLElement) {
     return `<tr><td>${q.label}</td><td>${Number.isNaN(b) ? "—" : b.toFixed(2)}</td><td>${Number.isNaN(g) ? "—" : g.toFixed(2)}</td></tr>`;
   }).join("");
 
-  const fmtAcc = (a: { n: number; correct: number }) => (a.n === 0 ? "no data yet" : `${a.correct}/${a.n} (${Math.round((100 * a.correct) / a.n)}%)`);
+  const fmtAcc = (a: { n: number; correct: number }) => (a.n === 0 ? "no data yet" : `${a.correct}/${a.n} correct (${Math.round((100 * a.correct) / a.n)}%)`);
   const fmtNotSure = (a: { n: number; notSure: number }) => (a.n === 0 ? "no data yet" : `${Math.round((100 * a.notSure) / a.n)}% (${a.notSure}/${a.n})`);
 
   app.innerHTML = "";
@@ -144,8 +144,8 @@ export async function renderResultsPage(app: HTMLElement) {
       <p class="muted">2 sites have an unambiguous answer key (see
       src/study/sites.json). This checks agreement isn't just everyone
       converging on the same wrong answer.</p>
-      <p><strong>Baseline:</strong> ${fmtAcc(baselineAnchor)} correct</p>
-      <p><strong>Guided:</strong> ${fmtAcc(guidedAnchor)} correct</p>
+      <p><strong>Baseline:</strong> ${fmtAcc(baselineAnchor)}</p>
+      <p><strong>Guided:</strong> ${fmtAcc(guidedAnchor)}</p>
     </div>
 
     <div class="card">
