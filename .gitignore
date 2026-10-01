@@ -10,3 +10,10 @@ scratch/
 .venv/
 *.pyc
 __pycache__/
+
+# local planning / submission-prep notes
+COMPETITION.md
+CLAUDE.md
+AGENTS.md
+docs/video-script.md
+docs/devpost-submission.md

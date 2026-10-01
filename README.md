@@ -11,22 +11,35 @@ OneAquaHealth's [Citizen Science App](https://apps.oneaquahealth.eu/login)
 asks volunteers to assess urban streams: channel shape, bank type, water
 flow, visible pipes, vegetation, an overall Good/Moderate/Poor rating. That
 data only helps researchers if different volunteers looking at the same
-stream report the same thing. Nobody has measured whether they do.
+stream report the same thing. OneAquaHealth's own Ghent pilot (Oct 2025)
+found volunteers getting stuck on the form's wording.
 
-We built a faithful replica of the real form (same questions, same answer
-codes, same images — extracted directly from the live app), and a redesigned
-version targeting the specific places volunteers get confused (urban cases
-the app's rural illustrations don't cover, ambiguous left/right, jargon like
-"impervious" and "transversal barrier"). Then we ran both as a randomized
-study: volunteers rate the same 8 real stream photos, one arm per person,
-and we measure inter-rater agreement (Krippendorff's α) on each.
+## What this is
 
-See [`analysis/PREREGISTRATION.md`](analysis/PREREGISTRATION.md) for the
-full pre-registered design, committed before any data was collected, and
-[`docs/mapping.md`](docs/mapping.md) for exactly how every guided-flow
-question maps back to the real app's question and OneAquaHealth's own field
-protocol (so nothing here is a "new" question — every rewrite is checked
-against the source).
+Three pieces:
+
+1. **A guided version of the form.** 11 of the 16 photo-answerable
+   questions change: 8 are reworded or split into yes/no sequences (bank
+   type, water flow, pipes and the like), and 3 keep their wording but gain
+   an urban reference image the app's rural illustrations lack. There is
+   also an explicit "which way is downstream" step up front. Every rewrite still produces
+   the exact answer code the real app expects, so nothing new gets stored.
+   [`docs/mapping.md`](docs/mapping.md) maps each one back to the original
+   question and to OneAquaHealth's field protocol.
+2. **A reliability-testing harness.** A randomized A/B setup: each
+   participant sees either a replica of the current form or the guided
+   version, rates the same 8 real stream photos, and the results page
+   computes Krippendorff's α per arm with bootstrap confidence intervals.
+   The design is pre-registered in
+   [`analysis/PREREGISTRATION.md`](analysis/PREREGISTRATION.md).
+3. **A FHIR R4 export** of a completed assessment, checked against the
+   public HL7 validator (see [`docs/fhir-export.md`](docs/fhir-export.md)).
+
+**The study has not been run.** No participants took part, so there is no
+agreement result for either arm and the results page shows its empty state.
+The harness is tested end to end (including the statistics, checked against
+Krippendorff's own worked example) and is ready for anyone with volunteers
+to point at it.
 
 ## What's real here
 
@@ -43,7 +56,7 @@ against the source).
   Benevento) — full credits in `media/CREDITS.md`.
 - **The statistics**: Krippendorff's α, implemented independently in both
   TypeScript (`src/lib/krippendorff.ts`, for the live results page) and
-  Python (`analysis/reliability.py`, for the final write-up), both checked
+  Python (`analysis/reliability.py`, for offline analysis), both checked
   against Krippendorff's own published worked example (α = 0.743) in
   `src/lib/krippendorff.test.ts` and `analysis/tests/test_reliability.py`.
 
@@ -57,7 +70,7 @@ src/                  static PWA (Vite + vanilla TypeScript, no framework)
   results/            live results page (fetches raw rows, computes α client-side)
   lib/                seeded RNG, Krippendorff's alpha, API base
 worker/               Cloudflare Worker: D1-backed submission + ENORA proxy
-analysis/             pre-registration + Python reliability analysis (final write-up)
+analysis/             pre-registration + Python reliability analysis (offline analysis)
 docs/mapping.md       every guided question ↔ original OAH question ↔ protocol citation
 ```
 
@@ -73,10 +86,12 @@ npm run worker:dev      # worker, http://localhost:8787 (needs wrangler login)
 npm test                 # vitest — includes the Krippendorff cross-check
 ```
 
-## Status
+## Limits
 
-This is a live, in-progress study (see `COMPETITION.md` for the full
-tracker). The results page updates in real time as responses come in — it
-is not a static mockup. Final analysis, per-question reliability table, and
-findings for OneAquaHealth will be added to this README before the
-submission deadline.
+- No study data exists. Nothing in this repo claims the guided form improves
+  agreement; that is the question the harness exists to answer.
+- The 8 study sites are photos, not field visits.
+- 5 of the 21 OAH questions can't be answered from a photo and are out of
+  scope.
+- OneAquaHealth's FHIR sandbox was unreachable during development, so the
+  export was validated against a public HAPI server instead.
